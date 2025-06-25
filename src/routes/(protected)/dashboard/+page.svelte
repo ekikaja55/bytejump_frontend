@@ -1,4 +1,5 @@
 <!--/(protected)/dashboard/+page.svelte -->
+<!-- test comment -->
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { logout } from '$lib/stores/authStore';
