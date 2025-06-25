@@ -22,6 +22,8 @@
 	import { get } from 'svelte/store';
 	$: auth = $authStore;
 
+	console.log("ini reactive state :",auth);
+	
 	const handleLogout = async () => {
 		await logout();
 		goto('/auth/login');
@@ -49,7 +51,7 @@
 				</DropdownHeader>
 				<DropdownGroup>
 					<DropdownItem href="/profile">Profile</DropdownItem>
-					<DropdownItem href="/dashboard">Dashboard</DropdownItem>
+					<DropdownItem href="/dashboard/member">Dashboard</DropdownItem>
 				</DropdownGroup>
 				<DropdownItem onclick={handleLogout}>Logout</DropdownItem>
 			</Dropdown>

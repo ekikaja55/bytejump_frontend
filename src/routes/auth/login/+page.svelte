@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Label, Input, Button } from 'flowbite-svelte';
 	import { login } from '$lib/stores/authStore';
-	import { goto } from '$app/navigation';
+	import { goto,} from '$app/navigation';
 	import { get } from 'svelte/store';
 	import { authStore } from '$lib/stores/authStore';
 
@@ -10,7 +10,7 @@
 	let passwordMobile = '';
 	let emailDesktop = '';
 	let passwordDesktop = '';
-	let errorMessage = '';
+	let errorMessage:string | null  = null;
 
 	const handleLogin = async ( isMobile = false) => {
 		//muncul
@@ -31,7 +31,7 @@
 			authStore.subscribe((val) => {
 				console.log("ini isi auth store dari login page",val);
 				userRole = val.user?.user_role ?? null;
-				
+				errorMessage=val.message
 			})();
 			
 			//muncul disini kasusnya di log "member"
@@ -45,11 +45,10 @@
 			} else if (userRole === 'member') {
 				goto('/dashboard/member');
 			} else {
-				goto('/not-authorized'); // fallback
+				return
 			}
 		} catch (error:any) {
 			console.log(error.message);
-			
 			errorMessage = 'Email atau password salah.';
 		}
 	};

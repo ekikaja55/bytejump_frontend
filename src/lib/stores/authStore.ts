@@ -1,8 +1,9 @@
 // src/lib/stores/authStore.ts
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import type { AuthState } from '$lib/types/auth';
 import * as authApi from '$lib/api/auth';
 import { parseUserFromJWT } from '$lib/utils/jwt';
+import { clearAuthLocal, saveAuthToLocal } from '$lib/utils/authToLocal';
 
 export const authStore = writable<AuthState>({
     //user disini ambil dari type  object user
@@ -34,11 +35,11 @@ export async function login(email: string, password: string) {
             message: res.message
         });
 
-        
+        saveAuthToLocal()
         // const dataDariLokal = localStorage.setItem("dataUser", JSON.stringify(authStore.))
 
         // console.log(dataDariLokal);
-        
+
 
     } catch (error: any) {
         console.log("ini error", error.message);
@@ -47,8 +48,9 @@ export async function login(email: string, password: string) {
             user: null,
             is_auth: false,
             loading: false,
-            message: 'Backend Error'
+            message: 'Email Atau Password Salah'
         });
+        clearAuthLocal()
     }
 }
 
@@ -122,6 +124,7 @@ export async function logout() {
             ...state,
             message: res.message
         }));
+        clearAuthLocal()
     } catch {
         resetAuth();
         authStore.update(state => ({

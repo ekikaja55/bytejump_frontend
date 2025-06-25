@@ -20,3 +20,17 @@ export type RegisterPayload = {
     user_nama:string,
     user_confirmation_password:string
 }
+
+export type AuthStateLocal = {
+	user: User|null;
+	message: string | null;
+	loading: boolean;
+	isHydrated: boolean;
+};
+
+export const initialState: AuthStateLocal = {
+	user: null,
+	message: null,
+	loading: false,
+	isHydrated: false
+};
