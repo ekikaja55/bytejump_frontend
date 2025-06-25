@@ -70,21 +70,36 @@ export async function register(
             user_confirmation_password: confirmation
         });
 
+        console.log("respon register", res);
+
+
         authStore.set({
             user: null,
             //sengaja ga aku true in is_auth nya karena aku ngerasa user hanya akan dianggap true jika  login
             is_auth: false,
             loading: false,
-            message: res.data.message
+            message: res.message
         });
-    } catch (error) {
+    } catch (error: any) {
+        console.log("Error saat register:", error);
+
+        let errorMessage = 'Terjadi kesalahan';
+
+        // Coba ambil pesan dari backend
+        if (error.response && error.response.data?.message) {
+            errorMessage = error.response.data.message;
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
+
         authStore.set({
             user: null,
             is_auth: false,
             loading: false,
-            message: 'Backend Error'
+            message: errorMessage
         });
     }
+
 }
 
 export async function fetchUser() {

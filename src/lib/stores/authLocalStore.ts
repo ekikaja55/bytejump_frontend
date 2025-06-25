@@ -1,38 +1,30 @@
-import { initialState, type AuthStateLocal } from '$lib/types/auth';
-import { getAuthLocal } from '$lib/utils/authToLocal';
+// src/lib/stores/authLocalStore.ts
 import { writable } from 'svelte/store';
+import { getAuthLocal, saveAuthToLocal } from '$lib/utils/authToLocal';
+import { initialState, type AuthStateLocal } from '$lib/types/auth';
 
 export const authLocalStore = writable<AuthStateLocal>(initialState);
 
+// hanya client
 if (typeof window !== 'undefined') {
-    console.log(" Client-side hydration started");
-    const stored = getAuthLocal();
+	const stored = getAuthLocal();
+    console.log("stored", stored);
+    
+	authLocalStore.update((state) => ({
+		...state,
+		user: stored,
+		is_auth: !!stored,
+		isHydrated: true,
+		loading: false
+	}));
 
-    console.log(" Data from localStorage:", stored);
+	authLocalStore.subscribe((state) => {
+		if (!state.isHydrated) return;
 
-    if (stored) {
-        authLocalStore.update((state) => ({
-            ...state,
-            user: stored.user,
-            isHydrated: true
-        }));
-    } else {
-        authLocalStore.update((state) => ({
-            ...state,
-            isHydrated: true
-        }));
-    }
-
-    authLocalStore.subscribe((state) => {
-        
-        if (state.user) {
-            
-            console.log("update authLocalStore", state.user);
-
-            localStorage.setItem('dataUser', JSON.stringify(state.user));
-        }
-        // if(!state.isHydrated) {
-        // 	localStorage.removeItem('dataUser');
-        // }
-    });
+		if (state.user && state.is_auth) {
+			localStorage.setItem('dataUser', JSON.stringify(state.user));
+		} else {
+			localStorage.removeItem('dataUser');
+		}
+	});
 }

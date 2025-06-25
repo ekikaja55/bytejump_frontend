@@ -1,6 +1,4 @@
 <script lang="ts">
-    console.log("masuk navbar");
-    
 	import {
 		Navbar,
 		NavBrand,
@@ -14,23 +12,29 @@
 		DropdownHeader,
 		DropdownGroup
 	} from 'flowbite-svelte';
-	import { authStore, logout } from '$lib/stores/authStore';
-	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
+	import { logout } from '$lib/stores/authStore';
 
-	// reactive auth state dari store
-	import { get } from 'svelte/store';
-	$: auth = $authStore;
+	let user: any = null;
 
-	console.log("ini reactive state :",auth);
-	
-	const handleLogout = async () => {
-		await logout();
-		goto('/auth/login');
+	onMount(() => {
+		const data = localStorage.getItem('dataUser');
+		if (data) {
+			try {
+				user = JSON.parse(data);
+			} catch (e) {
+				user = null;
+			}
+		}
+	});
+
+	const handleLogout = async() => {
+		localStorage.removeItem('dataUser');
+		await logout()
+		location.href = '/auth/login';
 	};
 </script>
 
-{#if browser}
 <Navbar class="border-gray-700 bg-gray-900 fixed z-[9999] w-full">
 	<!-- Brand -->
 	<NavBrand href="/">
@@ -39,19 +43,19 @@
 		</span>
 	</NavBrand>
 
-	<!-- Kanan: Avatar atau Tombol Login/Register -->
+	<!-- Kanan -->
 	<div class="flex items-center md:order-2 gap-2">
-		{#if auth?.is_auth && auth.user}
+		{#if user}
 			<!-- Avatar dan Dropdown -->
-			<Avatar id="avatar-menu" src={auth.user.user_avatar || '/foto1.jpg'} alt="Profile" />
+			<Avatar id="avatar-menu" src={user.user.user_avatar || '/foto1.jpg'} alt="Profile" />
 			<Dropdown placement="bottom" triggeredBy="#avatar-menu">
 				<DropdownHeader>
-					<span class="block text-sm font-semibold">{auth.user.user_nama}</span>
-					<span class="block text-sm text-gray-500 truncate">{auth.user.user_email}</span>
+					<span class="block text-sm font-semibold">{user.user.user_nama}</span>
+					<span class="block text-sm text-gray-500 truncate">{user.user.user_email}</span>
 				</DropdownHeader>
 				<DropdownGroup>
-					<DropdownItem href="/profile">Profile</DropdownItem>
-					<DropdownItem href="/dashboard/member">Dashboard</DropdownItem>
+					<!-- <DropdownItem href="/profile">Profile</DropdownItem> -->
+					<DropdownItem href="/dashboard">Dashboard</DropdownItem>
 				</DropdownGroup>
 				<DropdownItem onclick={handleLogout}>Logout</DropdownItem>
 			</Dropdown>
@@ -88,4 +92,3 @@
 		<NavLi href="/chatbot" class="text-black md:text-gray-300 hover:text-blue-400">Chatbot</NavLi>
 	</NavUl>
 </Navbar>
-{/if}

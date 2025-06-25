@@ -11,12 +11,17 @@ export const clearAuthLocal = () => {
 	localStorage.removeItem('dataUser');
 };
 
-export const getAuthLocal = () => {
+// src/lib/utils/authToLocal.ts
+export const getAuthLocal=()=> {
 	try {
-		const data = localStorage.getItem('dataUser');
-		return data ? JSON.parse(data) : null;
+		const stored = localStorage.getItem('dataUser');
+		if (!stored) return null;
+
+		const user = JSON.parse(stored);
+		return  user ;
 	} catch (e) {
-		console.warn("Gagal parsing dataUser", e);
+		console.error('Gagal parsing dataUser', e);
 		return null;
 	}
-};
+}
+
