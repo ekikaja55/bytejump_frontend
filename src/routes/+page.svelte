@@ -331,7 +331,6 @@ import {
 	:global(body) {
 		background-color: #111827;
 	}
-
 	.bg-grid-pattern {
 		background-image:
 			linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
