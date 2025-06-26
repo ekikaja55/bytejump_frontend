@@ -1,60 +1,39 @@
-<!--/(protected)/dashboard/+page.svelte -->
-<!-- test comment -->
+<!-- src/routes/(protected)/dashboard/+page.svelte -->
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { logout } from '$lib/stores/authStore';
-	import { user, isReady, isLoading } from '$lib/stores/authDerived';
-	import { Avatar, Button, Spinner } from 'flowbite-svelte';
+	import { user } from '$lib/stores/authDerived';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		console.log('Data user saat mount:', $user);
+	});
 
 	$: currentUser = $user;
-	$: ready = $isReady;
-	$: loading = $isLoading;
-	$: userInfoList = currentUser
-		? [
-			
-				{ label: 'id', value: currentUser.user.id },
-				{ label: 'Nama', value: currentUser.user.user_nama },
-				{ label: 'Email', value: currentUser.user.user_email },
-				{ label: 'Role', value: currentUser.user.user_role },
-				{ label: 'Balance', value: currentUser.user.user_balance }
-
-			]
-		: [];
-
-	console.log('currentUser:', currentUser);
-	console.log('ready:', ready);
-	console.log('loading:', loading);
-
-	const handleLogout = async () => {
-		localStorage.removeItem('dataUser');
-		await logout();
-		location.href = '/';
-	};
 </script>
 
-{#if !ready || loading}
-	<Spinner size="16" />
-{:else if currentUser}
-	<!-- hasil stringfy 
-	{"user":{"id":"685bf7f782fa89b3ffd3c9f5","user_email":"robert@gmail.com","user_nama":"Robert","user_avatar":"https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg","user_balance":250,"user_role":"member"},"is_auth":true,"loading":false,"message":"Success Login"} 
-	-->
+<div class="space-y-4 text-white">
+	<h1 class="text-2xl font-bold">Selamat datang, {currentUser?.user?.user_nama}!</h1>
+	<p class="text-lg font-semibold capitalize">{currentUser?.user?.user_role}</p>
 
-	<Avatar src={currentUser.user.user_avatar} class="mr-3 h-10 w-10 rounded-full" alt="User" />
-	
-	{#each userInfoList as info}
-		<h1>{info.label}: {info.value}</h1>
-	{/each}
+	<p class="text-gray-400">Berikut adalah ringkasan akun kamu:</p>
 
-	<Button color="red" class="mt-2" onclick={handleLogout}>Logout</Button>
-	<Button color="blue" class="mt-2" onclick={() => goto('/')}>Home</Button>
-{:else}
-	<!-- Fallback: kalau data sudah siap tapi user null -->
-	<p>Data user tidak tersedia. <a href="/auth/login">Login</a></p>
-{/if}
+	<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+		<div class="rounded-xl bg-gray-800 p-4 shadow-md">
+			<h2 class="text-sm text-gray-400">Role</h2>
+			<p class="text-lg font-semibold capitalize">{currentUser?.user?.user_role}</p>
+		</div>
 
-<style>
-	:global(body) {
-		background-color: #111827;
-		color: aliceblue;
-	}
-</style>
+		{#if currentUser?.user?.user_role === 'member'}
+			<div class="rounded-xl bg-gray-800 p-4 shadow-md">
+				<h2 class="text-sm text-gray-400">Saldo</h2>
+				<p class="text-lg font-semibold">
+					Rp {currentUser?.user?.user_balance}
+				</p>
+			</div>
+		{/if}
+
+		<div class="rounded-xl bg-gray-800 p-4 shadow-md">
+			<h2 class="text-sm text-gray-400">Email</h2>
+			<p class="text-lg font-semibold">{currentUser?.user?.user_email}</p>
+		</div>
+	</div>
+</div>

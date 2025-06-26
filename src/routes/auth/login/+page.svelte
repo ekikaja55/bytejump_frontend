@@ -38,7 +38,6 @@
 			//muncul disini kasusnya di log "member"
 			console.log(userRole);
 
-			
 			if (userRole) {
 				setTimeout(() => {
 					goto('/');
@@ -125,11 +124,10 @@
 
 	<!-- Desktop-only form -->
 	<div class="hidden w-1/2 flex-col items-center justify-center bg-[#111827] px-6 py-12 md:flex">
-		
-		<form class="w-full max-w-md" on:submit={() => handleLogin()}>
-			<button on:click={goBack} class="mb-6 flex items-center text-lg text-gray-300 hover:text-white">
+		<button on:click={goBack} class="mb-6 flex items-center text-lg text-gray-300 hover:text-white">
 			<span class="mr-2">←</span> Back
 		</button>
+		<form class="w-full max-w-md" on:submit={() => handleLogin()}>
 			<h2 class="mb-6 text-4xl font-bold text-white">Login Form</h2>
 			<div class="mb-6">
 				<Label for="email" class="mb-2 text-white">Email address</Label>

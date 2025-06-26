@@ -32,7 +32,7 @@ export async function login(email: string, password: string) {
             loading: false,
             //ambil dari message kiriman backend
 
-            message: res.message
+            message: res.message + " redirecting... "
         });
 
         saveAuthToLocal()
@@ -78,7 +78,7 @@ export async function register(
             //sengaja ga aku true in is_auth nya karena aku ngerasa user hanya akan dianggap true jika  login
             is_auth: false,
             loading: false,
-            message: res.message
+            message: res.message + " redirecting... "
         });
     } catch (error: any) {
         console.log("Error saat register:", error);

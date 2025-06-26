@@ -135,6 +135,7 @@ import {
 
 				<div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<Button
+						href="/auth/register"
 						size="lg"
 						class="bg-gradient-to-r from-blue-500 to-purple-600 px-8 py-3 text-lg font-semibold hover:from-blue-600 hover:to-purple-700"
 					>

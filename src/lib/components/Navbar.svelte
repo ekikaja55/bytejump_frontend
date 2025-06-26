@@ -31,7 +31,7 @@
 	const handleLogout = async() => {
 		localStorage.removeItem('dataUser');
 		await logout()
-		location.href = '/auth/login';
+		location.href = '/';
 	};
 </script>
 
