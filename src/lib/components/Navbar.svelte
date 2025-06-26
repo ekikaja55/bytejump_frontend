@@ -88,7 +88,7 @@
 		<NavLi href="/journey" class="text-black md:text-gray-300 hover:text-blue-400">Our Journey</NavLi>
 		<NavLi href="/forums" class="text-black md:text-gray-300 hover:text-blue-400">Forums</NavLi>
 		<NavLi href="/news" class="text-black md:text-gray-300 hover:text-blue-400">News</NavLi>
-		<NavLi href="/wiki" class="text-black md:text-gray-300 hover:text-blue-400">Wiki</NavLi>
+		<NavLi href="/post" class="text-black md:text-gray-300 hover:text-blue-400">Wiki</NavLi>
 		<NavLi href="/chatbot" class="text-black md:text-gray-300 hover:text-blue-400">Chatbot</NavLi>
 	</NavUl>
 </Navbar>
