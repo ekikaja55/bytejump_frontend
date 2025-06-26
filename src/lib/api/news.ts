@@ -1,9 +1,9 @@
 // rico 
-import axios from '$lib/utils/axios';
+import api from '$lib/utils/axios';
 
 export const getArticles = async () => {
     try {
-        const res = await axios.get('/articles')
+        const res = await api.get('/articles')
         return res.data;
     } catch (error) {
         console.error('Login API error:', error);
@@ -12,7 +12,7 @@ export const getArticles = async () => {
 }
 export const getArticleWithTag= async () => {
     try {
-        const res = await axios.get('/articles/tags')
+        const res = await api.get('/articles/tags')
         return res.data;
     } catch (error) {
         console.error('Login API error:', error);
@@ -21,7 +21,7 @@ export const getArticleWithTag= async () => {
 }
 export const getArticlesTop = async () => {
     try {
-        const res = await axios.get('/articles/1')
+        const res = await api.get('/articles/1')
         return res.data;
     } catch (error) {
         console.error('Login API error:', error);
