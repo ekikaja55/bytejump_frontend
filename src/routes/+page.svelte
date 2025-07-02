@@ -401,6 +401,7 @@
 					<div class="flex justify-center mt-4 gap-2">
 						{#each testimonials as _, i}
 							<button
+								aria-label="btn"
 								onclick={() => changeTestimonial(i)}
 								class="w-3 h-3 rounded-full transition-all duration-300 hover:scale-125"
 								class:bg-blue-500={i === current}

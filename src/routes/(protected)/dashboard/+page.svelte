@@ -3,9 +3,9 @@
 	import { user } from '$lib/stores/authDerived';
 	import { onMount } from 'svelte';
 
-	onMount(() => {
-		console.log('Data user saat mount:', $user);
-	});
+	// onMount(() => {
+	// 	console.log('Data user saat mount:', $user);
+	// });
 
 	$: currentUser = $user;
 </script>
