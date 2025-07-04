@@ -3,7 +3,8 @@ import axios from 'axios';
 
 const api = axios.create({
 	baseURL: import.meta.env.VITE_API_URL,
-	withCredentials: true
+	withCredentials: true,
+
 });
 
 let isRefreshing = false;
@@ -11,20 +12,22 @@ let isRefreshing = false;
 api.interceptors.response.use(
 	res => res,
 	async err => {
+		console.log("MASUK 1");
+
+		console.log(err.message);
+
 		const originalRequest = err.config;
 
 		if (err.response?.status === 401 && !originalRequest._retry) {
 			originalRequest._retry = true;
+			console.log("trigger interceptor 1 ");
 
 			try {
 				if (!isRefreshing) {
 					isRefreshing = true;
-
-					await axios.get('/auth/refreshtoken', {
-						baseURL: import.meta.env.VITE_API_URL,
-						withCredentials: true
-					});
-
+					console.log("masuk triger interceptor 2");
+					await api.get('/auth/refreshtoken'); // gunakan instance yang sama
+					console.log("triger interceptor 3");
 					isRefreshing = false;
 				}
 
@@ -32,11 +35,11 @@ api.interceptors.response.use(
 			} catch (refreshErr) {
 				isRefreshing = false;
 
-				//  Error terjadi di server, jangan pakai window
 				if (typeof window !== 'undefined' && window.location.pathname !== '/auth/login') {
-					window.location.href = '/auth/login';
+					console.log(refreshErr);
+					
+					// window.location.href = '/auth/login';
 				}
-
 
 				return Promise.reject(refreshErr);
 			}
@@ -45,5 +48,6 @@ api.interceptors.response.use(
 		return Promise.reject(err);
 	}
 );
+
 
 export default api;

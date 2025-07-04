@@ -1,10 +1,10 @@
 // src/lib/api/auth.ts
 import type { LoginPayload, RegisterPayload } from '$lib/types/auth';
-import axios from '$lib/utils/axios';
+import api from '$lib/utils/axios';
 
 export const login = async (payload: LoginPayload) => {
     try {
-        const res = await axios.post('/auth/login', payload);
+        const res = await api.post('/auth/login', payload);
         return res.data;
     } catch (error) {
         console.error('Login API error:', error);
@@ -13,7 +13,7 @@ export const login = async (payload: LoginPayload) => {
 };
 export const register = async (payload: RegisterPayload) => {
     try {
-        const res = await axios.post('/auth/register', payload);
+        const res = await api.post('/auth/register', payload);
         return res.data;
     } catch (error) {
         console.error('Login API error:', error);
@@ -22,7 +22,7 @@ export const register = async (payload: RegisterPayload) => {
 };
 export const refreshToken = async () => {
     try {
-        const res = await axios.get('/auth/refreshtoken');
+        const res = await api.get('/auth/refreshtoken');
         console.log(res.data);
         //ini kembalian res.data 
         return res.data;
@@ -35,7 +35,7 @@ export const refreshToken = async () => {
 };
 export const logout = async () => {
     try {
-        const res = await axios.get('/auth/logout');
+        const res = await api.get('/auth/logout');
         return res.data;
     } catch (error) {
         console.error('Login API error:', error);

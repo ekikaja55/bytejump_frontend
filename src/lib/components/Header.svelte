@@ -7,3 +7,6 @@
 		<h1>{name} form</h1>
 	{/if}
  </div>
+
+ <style>
+ </style>
