@@ -1,10 +1,11 @@
 //src/utils/axios.ts
+import { refreshToken } from '$lib/api/auth';
 import axios from 'axios';
 
 const api = axios.create({
 	baseURL: import.meta.env.VITE_API_URL,
 	withCredentials: true,
-
+	
 });
 
 let isRefreshing = false;
@@ -26,7 +27,9 @@ api.interceptors.response.use(
 				if (!isRefreshing) {
 					isRefreshing = true;
 					console.log("masuk triger interceptor 2");
-					await api.get('/auth/refreshtoken'); // gunakan instance yang sama
+					const res:any = await refreshToken(); 
+					console.log("ini hasil dari refresh token pas trigger : ",res.result);
+					
 					console.log("triger interceptor 3");
 					isRefreshing = false;
 				}

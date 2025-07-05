@@ -46,7 +46,7 @@ export const updateView = async (id: string) => {
 
 export const addPost = async (payload: PostPayload) => {
     try {
-        const res = await api.post('/post/', payload)
+        const res = await api.post('/post', payload)
         return res.data
     } catch (error) {
         console.error('Login API error:', error);

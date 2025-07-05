@@ -23,7 +23,6 @@ export const register = async (payload: RegisterPayload) => {
 export const refreshToken = async () => {
     try {
         const res = await api.get('/auth/refreshtoken');
-        console.log(res.data);
         //ini kembalian res.data 
         return res.data;
 
